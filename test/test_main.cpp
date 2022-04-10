@@ -1,3 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
-#include "doctest/doctest.h"
+// STD includes
+
+// External library includes
+#include <doctest/doctest.h>
+
+// Project includes
+#include "test_geometry/test_sphere.h"
