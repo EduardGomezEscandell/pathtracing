@@ -23,7 +23,7 @@ cmake -G"Visual Studio 16 2019"                 ^
 cmake --build "%BUILD_DIR%\%BUILD_TYPE%" -- /property:configuration=%BUILD_TYPE%
 
 :: Creating links in bin
-echo off
+@echo off
 rd /s /q "%BIN_DIR%"
 mkdir "%BIN_DIR%"
 mklink "%BIN_DIR%\run_tests.exe" "%BUILD_DIR%\%BUILD_TYPE%\test\%BUILD_TYPE%\run_tests.exe"
