@@ -1,3 +1,6 @@
 [submodule "external_libraries/doctest"]
 	path = external_libraries/doctest
 	url = git@github.com:doctest/doctest.git
+[submodule "external_libraries/eigen"]
+	path = external_libraries/eigen
+	url = https://gitlab.com/libeigen/eigen.git
