@@ -16,7 +16,7 @@ TEST_CASE("Ray")
     SUBCASE("Normalization")
     {
         REQUIRE_EQ(ray.direction.norm(), doctest::Approx(1.0));
-        REQUIRE_NE(ray.origin.norm(), doctest::Approx(1.0));
+        REQUIRE_NE(ray.source.norm(), doctest::Approx(1.0));
 
         const double original_norm = std::sqrt(3*3 + 4*4 + 5*5);
         CHECK_EQ(ray.direction[0],  3 / original_norm);

@@ -8,9 +8,9 @@
 // Project includes
 
 struct Ray {
-    Ray(const Eigen::Vector3d& origin, const Eigen::Vector3d& direction);
+    Ray(const Eigen::Vector3d& source, const Eigen::Vector3d& direction);
 
-    Eigen::Vector3d origin;
+    Eigen::Vector3d source;
     Eigen::Vector3d direction;
 
 private:

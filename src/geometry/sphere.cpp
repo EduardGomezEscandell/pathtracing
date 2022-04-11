@@ -10,7 +10,7 @@
 
 std::optional<Hit> Sphere::Intersect(const Ray& ray)
 {
-    const Eigen::Vector3d oc = m_center - ray.origin;
+    const Eigen::Vector3d oc = m_center - ray.source;
     const double oc_proj = oc.dot(ray.direction);
     const double discriminant = oc_proj * oc_proj - oc.dot(oc) + m_radius*m_radius;
 
@@ -24,11 +24,26 @@ std::optional<Hit> Sphere::Intersect(const Ray& ray)
     const double t1 = oc_proj - sqrt_discriminant;
     const double t2 = oc_proj + sqrt_discriminant;
 
-    // No hit if closest point is behind ray origin
+    // No hit if closest point is behind ray source
     if(t1 < 0.0 && t2 < 0.0) return std::nullopt;
-    if(t1 > 0.0 && t2 < 0.0) return Hit(m_center + ray.direction*t1);
-    if(t1 < 0.0 && t2 > 0.0) return Hit(m_center + ray.direction*t1);
+    if(t1 > 0.0 && t2 < 0.0) {
+        const Eigen::Vector3d hitpoint = ray.source + ray.direction*t1;
+        return Hit(hitpoint, ComputeNormal(hitpoint));
+    }
+    if(t1 < 0.0 && t2 > 0.0) {
+        const Eigen::Vector3d hitpoint = ray.source + ray.direction*t2;
+        return Hit(hitpoint, ComputeNormal(hitpoint));
+    }
 
     // Return closest point
-    return Hit(ray.origin + ray.direction*std::min(t1, t2));
+    const Eigen::Vector3d hitpoint = ray.source + ray.direction*std::min(t1, t2);
+    return Hit(hitpoint, ComputeNormal(hitpoint));
+}
+
+/**
+ * BEWARE! This does not check wether the point belongs to the geometry
+ */
+Eigen::Vector3d Sphere::ComputeNormal(const Eigen::Vector3d& point) const
+{
+    return (point - m_center).normalized();
 }

@@ -7,8 +7,8 @@
 #include "ray.hpp"
 
 
-Ray::Ray(const Eigen::Vector3d& origin, const Eigen::Vector3d& direction)
-        : origin(origin), direction(direction)
+Ray::Ray(const Eigen::Vector3d& source, const Eigen::Vector3d& direction)
+        : source(source), direction(direction)
 {
     const double direction_norm = direction.norm();
     if(direction_norm < epsilon)

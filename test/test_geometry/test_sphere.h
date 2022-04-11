@@ -23,5 +23,9 @@ TEST_CASE("Sphere")
         CHECK_EQ(hit->position[0], doctest::Approx(1.5));
         CHECK_EQ(hit->position[1], doctest::Approx(1.0));
         CHECK_EQ(hit->position[2], doctest::Approx(0.0));
+
+        CHECK_EQ(hit->normal[0], doctest::Approx(-1.0));
+        CHECK_EQ(hit->normal[1], doctest::Approx( 0.0));
+        CHECK_EQ(hit->normal[2], doctest::Approx( 0.0));
     }
 }
