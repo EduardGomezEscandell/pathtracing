@@ -18,7 +18,7 @@ TEST_CASE("Sphere")
     SUBCASE("Regular hit")
     {
         Ray ray({1.0, 0.0, 0.0}, {1.0, 2.0, 0.0});
-        auto hit = sphere.Intersect(ray);
+        auto hit = sphere.intersect(ray);
         REQUIRE(hit.has_value());
         CHECK_EQ(hit->position[0], doctest::Approx(1.5));
         CHECK_EQ(hit->position[1], doctest::Approx(1.0));

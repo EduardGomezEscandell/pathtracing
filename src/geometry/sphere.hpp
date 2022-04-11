@@ -18,7 +18,7 @@ public:
         : m_radius(radius), m_center(center)
     {}
 
-    std::optional<Hit> Intersect(Ray const& ray) override;
+    std::optional<Hit> intersect(Ray const& ray) override;
 
 protected:
     Eigen::Vector3d ComputeNormal(Eigen::Vector3d const& point) const;

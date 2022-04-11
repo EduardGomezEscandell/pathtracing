@@ -1,8 +1,8 @@
 add_executable(run_tests test_main.cpp)
 
-target_link_libraries(run_tests doctest geometry)
+target_link_libraries(run_tests doctest geometry rendering)
 
-add_subdirectory(test_geometry)
+add_subdirectory(test_geometry test_rendering)
 
 if(MSVC)
   target_compile_options(run_tests PRIVATE /W3 /WX)
