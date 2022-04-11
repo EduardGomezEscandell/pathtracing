@@ -8,7 +8,7 @@
 #include "sphere.hpp"
 #include "hit.hpp"
 
-std::optional<Hit> Sphere::intersect(const Ray& ray)
+std::optional<Hit> Sphere::intersect(const Ray& ray) const
 {
     const Eigen::Vector3d oc = m_center - ray.source;
     const double oc_proj = oc.dot(ray.direction);

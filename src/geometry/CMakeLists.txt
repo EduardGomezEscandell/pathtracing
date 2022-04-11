@@ -1,6 +1,8 @@
 add_library(geometry
   geometry.hpp
   hit.hpp
+  multi_geometry.hpp
+  multi_geometry.cpp
   ray.hpp
   ray.cpp
   sphere.hpp

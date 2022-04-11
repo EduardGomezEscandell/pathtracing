@@ -18,7 +18,7 @@ public:
 
     virtual ~Geometry() = default;
 
-    virtual std::optional<Hit> intersect(const Ray& ray) = 0;
+    virtual std::optional<Hit> intersect(const Ray& ray) const = 0;
 protected:
 
 private:
