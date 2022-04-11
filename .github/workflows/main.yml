@@ -15,10 +15,10 @@ jobs:
       BUILD_TYPE: Debug
 
     steps:
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-        token: ${{ secrets.CI_TOKEN }}
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          token: ${{ secrets.CI_TOKEN }}
 
       - name: Build
         run: bash configure.sh
@@ -32,10 +32,10 @@ jobs:
       BUILD_TYPE: Debug
 
     steps:
-      uses: actions/checkout@v2
-      with:
-        submodules: 'true'
-        token: ${{ secrets.CI_TOKEN }}
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          token: ${{ secrets.CI_TOKEN }}
 
       - name: Build
         run: .\configure.cmd
