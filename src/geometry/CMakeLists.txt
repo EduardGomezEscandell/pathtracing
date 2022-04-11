@@ -2,6 +2,7 @@ add_library(geometry
   geometry.hpp
   hit.hpp
   ray.hpp
+  ray.cpp
   sphere.hpp
   sphere.cpp
   triangle.hpp
