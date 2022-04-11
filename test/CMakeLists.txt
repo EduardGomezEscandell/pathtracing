@@ -1,6 +1,6 @@
 add_executable(run_tests test_main.cpp)
 
-target_link_libraries(run_tests doctest geometry rendering)
+target_link_libraries(run_tests doctest geometry rendering scene)
 
 add_subdirectory(test_geometry test_rendering)
 

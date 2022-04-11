@@ -1,5 +1,6 @@
 add_subdirectory(geometry)
 add_subdirectory(rendering)
+add_subdirectory(scene)
 
 add_executable(pathtracer main.cpp)
 target_link_libraries(pathtracer eigen geometry)

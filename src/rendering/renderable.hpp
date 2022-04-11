@@ -23,7 +23,7 @@ public:
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
 
-    bool shine(LightRay& light_ray)
+    virtual bool shine(LightRay& light_ray) const
     {
         auto hit = m_geometry->intersect(light_ray);
 

@@ -10,6 +10,15 @@
 struct Color {
     using channel = std::uint8_t;
 
+    constexpr Color()
+    {
+        // Black by default
+        r = 0x00;
+        g = 0x00;
+        b = 0x00;
+        a = 0xFF;
+    };
+
     constexpr Color(const channel red, const channel green, const channel blue, const channel alpha = 255)
         :   r(red), g(green), b(blue), a(alpha)
     { }
@@ -31,8 +40,24 @@ struct Color {
         return r == other.r && g == other.g && b == other.b && a == other.a;
     }
 
+    constexpr bool operator!=(const Color& other) const
+    {
+        return !(*this == other);
+    }
+
+
     uint8_t r, g, b, a;
 };
+
+std::ostream& operator<<(std::ostream& os, Color const& color)
+{
+    os << "Color("
+       << static_cast<int>(color.r) << ", "
+       << static_cast<int>(color.g) << ", "
+       << static_cast<int>(color.b) << ", "
+       << static_cast<int>(color.a) << ")";
+    return os;
+}
 
 namespace Colors {
     // useful predefined colours
