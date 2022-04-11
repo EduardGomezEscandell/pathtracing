@@ -15,7 +15,7 @@ set CMAKE_CXX_FLAGS="/EHsc /Wv:18"
 
 :: Building
 @echo on
-cmake -G"Visual Studio 16 2019"                 ^
+cmake -G"Visual Studio 17 2022"                 ^
 -B"%BUILD_DIR%\%BUILD_TYPE%" -H"%SOURCE_DIR%"   ^
 -DCMAKE_BUILD_TYPE=%BUILD_TYPE%                 ^
 -DCMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS%
