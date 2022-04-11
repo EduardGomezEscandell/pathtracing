@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  ci-ubuntu:
+    runs-on: ubuntu-latest
+    env:
+      BUILD_TYPE: Debug
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          token: ${{ secrets.CI_TOKEN }}
+
+      - name: Build
+        run: bash configure.sh
+
+      - name: Test
+        run: ./bin/Debug/run_tests
+
+  ci-windows:
+    runs-on: windows-2022
+    env:
+      BUILD_TYPE: Debug
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+          token: ${{ secrets.CI_TOKEN }}
+
+      - name: Build
+        run: .\configure.bat
+
+      - name: Test
+        run: .\bin\Debug\run_tests.exe
