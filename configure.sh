@@ -23,5 +23,8 @@ mkdir -p "${BIN_DIR}"
 ln -s "${BUILD_DIR}/${BUILD_TYPE}/test/run_tests" "${BIN_DIR}/run_tests"
 ln -s "${BUILD_DIR}/${BUILD_TYPE}/src/pathtracer" "${BIN_DIR}/pathtracer"
 
+chmod +x "${BIN_DIR}/run_tests"
+chmod +x "${BIN_DIR}/pathtracer"
+
 # Compile commands
 ln -sf "${BUILD_DIR}/${BUILD_TYPE}/compile_commands.json" "${PROJECT_DIR}/compile_commands.json"
