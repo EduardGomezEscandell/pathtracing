@@ -41,4 +41,4 @@ jobs:
         run: .\configure.bat
 
       - name: Test
-        run: bin\Debug\run_tests.exe
+        run: .\bin\Debug\run_tests.exe
