@@ -13,13 +13,15 @@
 
 TEST_CASE("Sphere")
 {
-    Sphere sphere(1.0, {0.2, 0.1, 0.0});
+    Sphere sphere(0.5, {2.0, 1.0, 0.0});
 
     SUBCASE("Regular hit")
     {
         Ray ray({1.0, 0.0, 0.0}, {1.0, 2.0, 0.0});
         auto hit = sphere.Intersect(ray);
-        CHECK(hit.has_value());
-        CHECK(hit->position == Eigen::Vector3d{1.5, 1.0, 0.0});
+        REQUIRE(hit.has_value());
+        CHECK_EQ(hit->position[0], doctest::Approx(1.5));
+        CHECK_EQ(hit->position[1], doctest::Approx(1.0));
+        CHECK_EQ(hit->position[2], doctest::Approx(0.0));
     }
 }

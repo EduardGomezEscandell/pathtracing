@@ -12,7 +12,7 @@ std::optional<Hit> Sphere::Intersect(const Ray& ray)
 {
     const Eigen::Vector3d oc = m_center - ray.origin;
     const double oc_proj = oc.dot(ray.direction);
-    const double discriminant = oc_proj*oc_proj - oc.dot(oc) + m_radius*m_radius;
+    const double discriminant = oc_proj * oc_proj - oc.dot(oc) + m_radius*m_radius;
 
     // No hit if closest point is outside sphere
     if(discriminant < 0.0)
@@ -30,5 +30,5 @@ std::optional<Hit> Sphere::Intersect(const Ray& ray)
     if(t1 < 0.0 && t2 > 0.0) return Hit(m_center + ray.direction*t1);
 
     // Return closest point
-    return Hit(m_center + ray.direction*std::min(t1, t2));
+    return Hit(ray.origin + ray.direction*std::min(t1, t2));
 }
