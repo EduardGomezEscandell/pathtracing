@@ -13,6 +13,10 @@
 class Renderable
 {
 public:
+    Renderable(Material const& material)
+        : m_geometry(nullptr), m_material(material)
+    { }
+    
     template<std::derived_from<Geometry> T>
     Renderable(T const& geometry, Material const& material)
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
@@ -23,8 +27,35 @@ public:
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
 
+    template<std::derived_from<Geometry> T>
+    Geometry& set_geometry(T const& geometry)
+    {
+        m_geometry = std::make_unique<T>(geometry);
+        return *m_geometry;
+    }
+
+    Geometry& get_geometry()
+    {
+    #ifndef DNDEBUG
+        if(!m_geometry) throw std::runtime_error("Renderable has no geometry");
+    #endif
+        return *m_geometry;
+    }
+
+    Geometry const& get_geometry() const
+    {
+    #ifndef DNDEBUG
+        if(!m_geometry) throw std::runtime_error("Renderable has no geometry");
+    #endif
+        return *m_geometry;
+    }
+
+    bool has_geometry() const noexcept { return m_geometry != nullptr; }
+
     virtual bool shine(LightRay& light_ray) const
     {
+        if(!m_geometry) return false;
+
         auto hit = m_geometry->intersect(light_ray);
 
         if(!hit) return false;
