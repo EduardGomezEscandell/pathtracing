@@ -7,3 +7,4 @@
 
 // Project includes
 #include "test_geometry/test_sphere.h"
+#include "test_geometry/test_ray.h"
