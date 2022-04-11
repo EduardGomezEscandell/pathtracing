@@ -2,7 +2,7 @@
 #include <optional>
 
 // External library includes
-#include <eigen/Dense>
+#include <Eigen/Dense>
 
 // Project includes
 #include "sphere.hpp"

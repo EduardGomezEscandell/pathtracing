@@ -19,9 +19,9 @@ cmake --build "${BUILD_DIR}/${BUILD_TYPE}" -- -j$(nproc)
 
 # Creating links in bin
 rm -rf "${BIN_DIR}"
-mkdir "${BIN_DIR}"
-ln -s "${BUILD_DIR}/${BUILD_TYPE}/test/${BUILD_TYPE}/run_tests.exe" "${BIN_DIR}/run_tests.exe"
-ln -s "${BUILD_DIR}/${BUILD_TYPE}/src/${BUILD_TYPE}/pathtracer.exe" "${BIN_DIR}/pathtracer.exe"
+mkdir -p "${BIN_DIR}"
+ln -s "${BUILD_DIR}/${BUILD_TYPE}/test/run_tests" "${BIN_DIR}/run_tests"
+ln -s "${BUILD_DIR}/${BUILD_TYPE}/src/pathtracer" "${BIN_DIR}/pathtracer"
 
 # Compile commands
 ln -sf "${BUILD_DIR}/${BUILD_TYPE}/compile_commands.json" "${PROJECT_DIR}/compile_commands.json"

@@ -3,7 +3,7 @@
 // STD includes
 
 // External library includes
-#include <eigen/Dense>
+#include <Eigen/Dense>
 
 // Project includes
 
