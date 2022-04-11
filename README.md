@@ -21,8 +21,8 @@ The executable will be generated and a couple of symliks will be created:
 ```
 bin
 └── Release
-    ├── pathtracer
-    └── run_tests
+    ├── pathtracer[.exe]
+    └── run_tests[.exe]
 ```
 The first one runs the program, the second one runs the tests. To compile in release mode,
 define environment variable `BUILD_TYPE` to `Debug` before compiling, and the binaries will
