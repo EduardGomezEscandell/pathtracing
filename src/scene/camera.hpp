@@ -63,10 +63,10 @@ public:
             for(std::size_t col=0; col < TWidth; ++col)
             {
                 LightRay ray = generate_ray<TWidth, THeight>(row, col, hfov, vfov, depth);
-                while(ray.energy)
+                bool hit = true;
+                while(ray.energy && hit)
                 {
-                    bool hit = renderable.shine(ray);
-                    if(!hit) break;
+                    hit = renderable.shine(ray);
                 }
                 image.pixels[row][col] = ray.color;
             }
