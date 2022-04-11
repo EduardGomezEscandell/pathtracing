@@ -1,6 +1,8 @@
 #pragma once
 
 // STD includes
+#include <memory>
+#include <concepts>
 
 // External library includes
 
@@ -11,25 +13,27 @@
 class Renderable
 {
 public:
-    Renderable(Geometry const& geometry, Material const& material)
-        : m_geometry(geometry), m_material(material)
+    template<std::derived_from<Geometry> T>
+    Renderable(T const& geometry, Material const& material)
+        : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
 
-    Renderable(Geometry && geometry, Material const& material)
-        : m_geometry(geometry), m_material(material)
+    template<std::derived_from<Geometry> T>
+    Renderable(T && geometry, Material const& material)
+        : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
 
     bool shine(LightRay& light_ray)
     {
-        auto hit = m_geometry.intersect(light_ray);
-        if(hit.empty()) {
-            return false;
-        }
+        auto hit = m_geometry->intersect(light_ray);
+
+        if(!hit) return false;
+
         m_material.interact(light_ray, *hit);
         return true;
     }
 
 protected:
-    Geometry m_geometry;
+    std::unique_ptr<Geometry> m_geometry;
     Material m_material;
 };
