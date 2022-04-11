@@ -15,15 +15,15 @@ jobs:
       BUILD_TYPE: Debug
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: git submodule update --init
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+        token: ${{ secrets.CI_TOKEN }}
 
       - name: Build
         run: bash configure.sh
 
-      - name: Tests
+      - name: Test
         run: ./bin/Debug/run_tests
 
   ci-windows:
@@ -32,13 +32,13 @@ jobs:
       BUILD_TYPE: Debug
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: git submodule update --init
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+        token: ${{ secrets.CI_TOKEN }}
 
       - name: Build
         run: .\configure.cmd
 
-      - name: Tests
+      - name: Test
         run: bin\Debug\run_tests.exe
