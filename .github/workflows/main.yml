@@ -38,7 +38,7 @@ jobs:
           token: ${{ secrets.CI_TOKEN }}
 
       - name: Build
-        run: .\configure.cmd
+        run: .\configure.bat
 
       - name: Test
         run: bin\Debug\run_tests.exe
