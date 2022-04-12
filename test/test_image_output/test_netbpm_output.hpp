@@ -53,7 +53,8 @@ TEST_CASE("NetBPM output")
             }
         }
 
-        const std::string result = (std::stringstream{} << NetBPM::Output{image}).str();
+        std::stringstream ss;
+        ss << NetBPM::Output{image};
 
         static constexpr std::string_view reference =
             "P3\n"
@@ -69,6 +70,6 @@ TEST_CASE("NetBPM output")
             "198 0 128 198 15 128 198 31 128 198 47 128 198 63 128 198 79 128 198 95 128 198 111 128 198 127 128 198 143 128 198 159 128 198 175 128 198 191 128 198 207 128 198 223 128 198 239 128 \n"
             "226 0 128 226 15 128 226 31 128 226 47 128 226 63 128 226 79 128 226 95 128 226 111 128 226 127 128 226 143 128 226 159 128 226 175 128 226 191 128 226 207 128 226 223 128 226 239 128 \n";
 
-        CHECK_EQ(result, reference);
+        CHECK_EQ(ss.str(), reference);
     }
 }
