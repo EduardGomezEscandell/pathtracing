@@ -6,6 +6,23 @@
 // Project includes
 #include "multi_geometry.hpp"
 
+
+MultiGeometry::MultiGeometry(MultiGeometry && other) 
+    : Geometry()
+{
+    m_geometries.swap(other.m_geometries);
+}
+
+MultiGeometry::MultiGeometry(MultiGeometry const& other)
+    : Geometry()
+{
+    m_geometries.reserve(other.m_geometries.size());
+    for(auto &geom: other.m_geometries)
+    {
+        m_geometries.emplace_back(geom->clone());
+    }
+}
+
 std::optional<Hit> MultiGeometry::intersect(const Ray& ray) const
 {
     std::optional<Hit> closest_hit = std::nullopt;
@@ -22,6 +39,11 @@ std::optional<Hit> MultiGeometry::intersect(const Ray& ray) const
     }
 
     return closest_hit;
+}
+
+std::unique_ptr<Geometry> MultiGeometry::clone() const
+{
+    return std::make_unique<MultiGeometry>(*this);
 }
 
 std::unique_ptr<Geometry> MultiGeometry::pop()

@@ -2,6 +2,7 @@
 
 // STD includes
 #include <optional>
+#include <memory>
 
 // External library includes
 #include <Eigen/Dense>
@@ -19,6 +20,8 @@ public:
     {}
 
     std::optional<Hit> intersect(Ray const& ray) const override;
+
+    std::unique_ptr<Geometry> clone() const override;
 
 protected:
     Eigen::Vector3d ComputeNormal(Eigen::Vector3d const& point) const;

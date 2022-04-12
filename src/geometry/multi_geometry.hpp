@@ -14,13 +14,13 @@ class MultiGeometry : public Geometry
 public:
     MultiGeometry() : Geometry() { }
 
-    MultiGeometry(MultiGeometry && other) 
-        : Geometry()
-    {
-        m_geometries.swap(other.m_geometries);
-    }
+    MultiGeometry(MultiGeometry && other);
+
+    MultiGeometry(MultiGeometry const& other);
 
     std::optional<Hit> intersect(const Ray& ray) const override;
+
+    std::unique_ptr<Geometry> clone() const override;
 
     template<std::derived_from<Geometry> TGeometryType>
     Geometry& push(TGeometryType && geometry)

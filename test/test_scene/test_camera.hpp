@@ -29,6 +29,11 @@ struct Quadrant : public Geometry
         }
         return std::nullopt;
     }
+
+    std::unique_ptr<Geometry> clone() const override
+    {
+        return std::make_unique<Quadrant>();
+    }
 };
 
 } // namespace

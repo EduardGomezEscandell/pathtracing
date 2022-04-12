@@ -29,6 +29,16 @@ public:
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
 
+    Renderable(Renderable const& other)
+        : m_geometry(other.m_geometry->clone()), m_material(other.m_material)
+    { }
+
+    Renderable(Renderable && other)
+        : m_geometry(std::move(other.m_geometry)), m_material(other.m_material)
+    {
+        other.m_geometry = nullptr;
+    }
+
     template<std::derived_from<Geometry> T>
     Geometry& set_geometry(T const& geometry)
     {

@@ -48,3 +48,8 @@ Eigen::Vector3d Sphere::ComputeNormal(const Eigen::Vector3d& point) const
 {
     return (point - m_center).normalized();
 }
+
+std::unique_ptr<Geometry> Sphere::clone() const
+{
+    return std::make_unique<Sphere>(*this);
+}
