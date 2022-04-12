@@ -3,7 +3,7 @@ add_library(scene
   scene.hpp
 )
 
-target_link_libraries(scene eigen geometry rendering)
+target_link_libraries(scene eigen geometry rendering image)
 target_include_directories(scene INTERFACE ..)
 
 if(MSVC)

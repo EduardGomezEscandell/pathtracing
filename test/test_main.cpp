@@ -14,3 +14,5 @@
 #include "test_rendering/test_renderable.hpp"
 
 #include "test_scene/test_camera.hpp"
+
+#include "test_image_output/test_netbpm_output.hpp"

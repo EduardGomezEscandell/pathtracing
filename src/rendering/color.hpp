@@ -2,6 +2,7 @@
 
 // STD includes
 #include <cstdint>
+#include <concepts>
 
 // External library includes
 
@@ -21,6 +22,14 @@ struct Color {
 
     constexpr Color(const channel red, const channel green, const channel blue, const channel alpha = 255)
         :   r(red), g(green), b(blue), a(alpha)
+    { }
+
+    template<std::integral R, std::integral G, std::integral B, std::integral A>
+    constexpr Color(const R red, const G green, const B blue, const A alpha = 255)
+        :   r(static_cast<channel>(red)),
+            g(static_cast<channel>(green)),
+            b(static_cast<channel>(blue)),
+            a(static_cast<channel>(alpha))
     { }
 
     constexpr Color(const int color_hex, const channel alpha)

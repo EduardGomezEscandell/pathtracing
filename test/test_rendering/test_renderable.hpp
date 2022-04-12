@@ -8,6 +8,7 @@
 #include "geometry/sphere.hpp"
 #include "rendering/renderable.hpp"
 
+
 TEST_CASE("Renderable")
 {
     Renderable renderable(Sphere(0.5, {2.0, 1.0, 0.0}), Material(Colors::BLUE));

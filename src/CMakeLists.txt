@@ -1,5 +1,7 @@
 add_subdirectory(geometry)
 add_subdirectory(rendering)
+add_subdirectory(image)
+add_subdirectory(image_output)
 add_subdirectory(scene)
 
 add_executable(pathtracer main.cpp)
