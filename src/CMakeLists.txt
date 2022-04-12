@@ -5,7 +5,7 @@ add_subdirectory(image_output)
 add_subdirectory(scene)
 
 add_executable(pathtracer main.cpp)
-target_link_libraries(pathtracer eigen geometry)
+target_link_libraries(pathtracer eigen geometry rendering image image_output scene)
 
 if(MSVC)
   target_compile_options(pathtracer PRIVATE /W4 /WX)

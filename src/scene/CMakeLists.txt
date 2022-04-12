@@ -1,5 +1,6 @@
 add_library(scene
   camera.hpp
+  camera.cpp
   lens.hpp
   scene.hpp
 )

@@ -1,5 +1,6 @@
 add_library(image_output
   netbpm_output.hpp
+  netbpm_output.cpp
 )
 
 target_link_libraries(image_output image)

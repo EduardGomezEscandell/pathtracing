@@ -10,6 +10,7 @@
 
 struct Color {
     using channel = std::uint8_t;
+    uint8_t r, g, b, a;
 
     constexpr Color()
     {
@@ -54,17 +55,15 @@ struct Color {
         return !(*this == other);
     }
 
-
-    uint8_t r, g, b, a;
 };
 
-std::ostream& operator<<(std::ostream& os, Color const& color)
+inline std::ostream& operator<<(std::ostream& os, Color const& color)
 {
     os << "Color("
-       << static_cast<int>(color.r) << ", "
-       << static_cast<int>(color.g) << ", "
-       << static_cast<int>(color.b) << ", "
-       << static_cast<int>(color.a) << ")";
+    << static_cast<int>(color.r) << ", "
+    << static_cast<int>(color.g) << ", "
+    << static_cast<int>(color.b) << ", "
+    << static_cast<int>(color.a) << ")";
     return os;
 }
 
