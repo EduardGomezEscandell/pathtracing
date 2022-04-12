@@ -50,7 +50,7 @@ public:
     }
 
     template<std::size_t TWidth = 1920, std::size_t THeight = 1080>
-    Image<TWidth, THeight> snap(Renderable const& renderable, std::size_t depth = 1)
+    Image<TWidth, THeight> snap(std::vector<std::unique_ptr<Renderable>> const& renderables, std::size_t depth = 1)
     {
         Image<TWidth, THeight> image;
 
@@ -62,20 +62,20 @@ public:
         {
             for(std::size_t col=0; col < TWidth; ++col)
             {
-                LightRay ray = generate_ray<TWidth, THeight>(row, col, hfov, vfov, depth);
-                bool hit = true;
-                while(ray.energy && hit)
-                {
-                    hit = renderable.shine(ray);
+                std::vector<LightRay> rays = generate_rays<TWidth, THeight>(row, col, hfov, vfov, depth);
+                for(auto& ray: rays) {
+                    cast(ray, renderables);
                 }
-                image.pixels[row][col] = ray.color;
+                image(row, col) = reduce_color(rays);
+
             }
         }
         return image;
     }
 
+protected:
     template<std::size_t TWidth = 1920, std::size_t THeight = 1080>
-    LightRay generate_ray(
+    std::vector<LightRay> generate_rays(
         const std::size_t row,
         const std::size_t col,
         const double hfov,
@@ -94,10 +94,62 @@ public:
 
         Eigen::Vector3d direction = m_local_basis * local_direction;
 
-        return LightRay(m_position, direction, Colors::BLACK, energy);
+        return {LightRay(m_position, direction, Colors::BLACK, energy)};
     }
 
-protected:
+    void cast(LightRay& ray, std::vector<std::unique_ptr<Renderable>> const& renderables) const
+    {
+        [[maybe_unused]] static constexpr std::size_t max_iter = 10'000;
+        [[maybe_unused]] std::size_t i=0;
+
+        while(ray.energy)
+        {
+            assert(++i < max_iter && "Ray exceeded maximum iterations");
+
+            std::optional<Hit> closest_hit = std::nullopt;
+            Renderable const* closest_renderable = nullptr;
+
+            for(auto const& renderable: renderables)
+            {
+                auto hit = renderable->cast(ray);
+                if(!hit) continue;
+
+                if(!closest_hit || hit->distance < closest_hit->distance)
+                {
+                    closest_hit.swap(hit);
+                    closest_renderable = renderable.get();
+                }
+            }
+
+            if(!closest_hit) break;
+
+            closest_renderable->interact(ray, *closest_hit);
+        }
+    }
+
+    Color reduce_color(std::vector<LightRay> const& rays)
+    {
+        unsigned int acc_red   = 0;
+        unsigned int acc_green = 0;
+        unsigned int acc_blue  = 0;
+        unsigned int acc_alpha = 0;
+
+        for(auto& ray: rays)
+        {
+            acc_red += ray.color.r;
+            acc_green += ray.color.g;
+            acc_blue += ray.color.b;
+            acc_alpha += ray.color.a;
+        }
+
+        const auto avg_red   = static_cast<Color::channel>(acc_red   / rays.size());
+        const auto avg_green = static_cast<Color::channel>(acc_green / rays.size());
+        const auto avg_blue  = static_cast<Color::channel>(acc_blue  / rays.size());
+        const auto avg_alpha = static_cast<Color::channel>(acc_alpha / rays.size());
+
+        return {avg_red, avg_green, avg_blue, avg_alpha};
+    }
+
     Eigen::Vector3d m_position;
     Eigen::Matrix3d m_local_basis;
 

@@ -3,6 +3,7 @@
 // STD includes
 #include <memory>
 #include <concepts>
+#include <optional>
 
 // External library includes
 
@@ -16,7 +17,7 @@ public:
     Renderable(Material const& material)
         : m_geometry(nullptr), m_material(material)
     { }
-    
+
     template<std::derived_from<Geometry> T>
     Renderable(T const& geometry, Material const& material)
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
@@ -26,6 +27,8 @@ public:
     Renderable(T && geometry, Material const& material)
         : m_geometry(std::make_unique<T>(geometry)), m_material(material)
     { }
+
+    virtual ~Renderable() = default;
 
     template<std::derived_from<Geometry> T>
     Geometry& set_geometry(T const& geometry)
@@ -52,16 +55,16 @@ public:
 
     bool has_geometry() const noexcept { return m_geometry != nullptr; }
 
-    virtual bool shine(LightRay& light_ray) const
+    virtual std::optional<Hit> cast(LightRay const& light_ray) const
     {
-        if(!m_geometry) return false;
+        if(!m_geometry) return std::nullopt;
 
-        auto hit = m_geometry->intersect(light_ray);
+        return m_geometry->intersect(light_ray);
+    }
 
-        if(!hit) return false;
-
-        m_material.interact(light_ray, *hit);
-        return true;
+    virtual void interact(LightRay & light_ray, Hit const& hit) const
+    {
+        m_material.interact(light_ray, hit);
     }
 
 protected:

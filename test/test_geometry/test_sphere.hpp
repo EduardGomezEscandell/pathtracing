@@ -27,6 +27,8 @@ TEST_CASE("Sphere")
         CHECK_EQ(hit->normal[0], doctest::Approx(-1.0));
         CHECK_EQ(hit->normal[1], doctest::Approx( 0.0));
         CHECK_EQ(hit->normal[2], doctest::Approx( 0.0));
+
+        CHECK_EQ(hit->distance, doctest::Approx(1.118033988749895));
     }
 
     SUBCASE("Miss")

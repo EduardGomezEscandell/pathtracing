@@ -15,7 +15,10 @@ TEST_CASE("Renderable")
     SUBCASE("Collision")
     {
         LightRay ray({1.0, 0.0, 0.0}, {1.0, 2.0, 0.0}, Colors::BLACK);
-        renderable.shine(ray);
+        const std::optional hit = renderable.cast(ray);
+
+        REQUIRE(hit.has_value());
+        renderable.interact(ray, *hit);
 
         CHECK_EQ(ray.source[0], doctest::Approx(1.5));
         CHECK_EQ(ray.source[1], doctest::Approx(1.0));
@@ -36,7 +39,10 @@ TEST_CASE("Renderable")
     SUBCASE("Tangential")
     {
         LightRay ray({1.5, 0.0, 0.0}, {0.0, 1.0, 0.0}, Colors::BLACK);
-        renderable.shine(ray);
+        const std::optional hit = renderable.cast(ray);
+
+        REQUIRE(hit.has_value());
+        renderable.interact(ray, *hit);
 
         CHECK_EQ(ray.source[0], 1.5);
         CHECK_EQ(ray.source[1], 1.0);

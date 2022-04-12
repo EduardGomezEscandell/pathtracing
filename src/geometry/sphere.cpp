@@ -28,16 +28,17 @@ std::optional<Hit> Sphere::intersect(const Ray& ray) const
     if(t1 < 0.0 && t2 < 0.0) return std::nullopt;
     if(t1 > 0.0 && t2 < 0.0) {
         const Eigen::Vector3d hitpoint = ray.source + ray.direction*t1;
-        return Hit(hitpoint, ComputeNormal(hitpoint));
+        return Hit(hitpoint, ComputeNormal(hitpoint), t1);
     }
     if(t1 < 0.0 && t2 > 0.0) {
         const Eigen::Vector3d hitpoint = ray.source + ray.direction*t2;
-        return Hit(hitpoint, ComputeNormal(hitpoint));
+        return Hit(hitpoint, ComputeNormal(hitpoint), t2);
     }
 
     // Return closest point
-    const Eigen::Vector3d hitpoint = ray.source + ray.direction*std::min(t1, t2);
-    return Hit(hitpoint, ComputeNormal(hitpoint));
+    const double t = std::min(t1, t2);
+    const Eigen::Vector3d hitpoint = ray.source + ray.direction*t;
+    return Hit(hitpoint, ComputeNormal(hitpoint), t);
 }
 
 /**
