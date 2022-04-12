@@ -2,3 +2,6 @@ build/**
 bin/**
 .vscode/**
 compile_commands.json
+
+# Image formats
+*.ppm
