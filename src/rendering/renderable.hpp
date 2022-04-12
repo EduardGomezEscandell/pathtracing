@@ -10,10 +10,13 @@
 // Project includes
 #include "geometry/geometry.hpp"
 #include "geometry/hit.hpp"
+#include "rendering/material.hpp"
 
 class Renderable
 {
 public:
+    using Unique = std::unique_ptr<Renderable>;
+
     Renderable(Material const& material)
         : m_geometry(nullptr), m_material(material)
     { }
@@ -29,6 +32,18 @@ public:
     { }
 
     virtual ~Renderable() = default;
+
+    template<std::derived_from<Renderable> T = Renderable, std::derived_from<Geometry> GeometryType>
+    static std::unique_ptr<Renderable> Create(GeometryType const& geometry, Material const& material)
+    {
+        return std::make_unique<T>(geometry, material);
+    }
+
+    template<std::derived_from<Renderable> T = Renderable, std::derived_from<Geometry> GeometryType>
+    static std::unique_ptr<Renderable> Create(GeometryType && geometry, Material && material)
+    {
+        return std::make_unique<T>(geometry, material);
+    }
 
     template<std::derived_from<Geometry> T>
     Geometry& set_geometry(T const& geometry)

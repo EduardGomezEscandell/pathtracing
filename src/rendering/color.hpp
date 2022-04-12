@@ -70,9 +70,14 @@ std::ostream& operator<<(std::ostream& os, Color const& color)
 
 namespace Colors {
     // useful predefined colours
-    static constexpr Color BLACK {0x000000, 255};
-    static constexpr Color WHITE {0xFFFFFF, 255};
-    static constexpr Color RED   {0xFF0000, 255};
-    static constexpr Color GREEN {0x00FF00, 255};
-    static constexpr Color BLUE  {0x0000FF, 255};
+    static constexpr Color BLACK   {0x000000, 255};
+    static constexpr Color WHITE   {0xFFFFFF, 255};
+
+    static constexpr Color RED     {0xFF0000, 255};
+    static constexpr Color GREEN   {0x00FF00, 255};
+    static constexpr Color BLUE    {0x0000FF, 255};
+
+    static constexpr Color YELLOW  {0xFFFF00, 255};
+    static constexpr Color CYAN    {0x00FFFF, 255};
+    static constexpr Color MAGENTA {0xFF00FF, 255};
 }
