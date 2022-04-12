@@ -12,7 +12,7 @@ If you are on Linux, use:
 ```bash
 bash configure.sh
 ```
-If you are on Windows, use:
+If you are on Windows (CURRENTLY NOT WORKING, WIP), use:
 ```powershell
 .\configure.bat
 ```
