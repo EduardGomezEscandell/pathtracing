@@ -25,20 +25,3 @@ jobs:
 
       - name: Test
         run: ./bin/Debug/run_tests
-
-  ci-windows:
-    runs-on: windows-2022
-    env:
-      BUILD_TYPE: Debug
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'true'
-          token: ${{ secrets.CI_TOKEN }}
-
-      - name: Build
-        run: .\configure.bat
-
-      - name: Test
-        run: .\bin\Debug\run_tests.exe
