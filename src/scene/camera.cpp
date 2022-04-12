@@ -11,9 +11,9 @@
 #include "image/image.hpp"
 
 Camera::Camera(
+        const double& horizontal_fov,
         const Eigen::Vector3d& position,
-        const Eigen::Matrix3d& local_basis,
-        const double& horizontal_fov) :
+        const Eigen::Matrix3d& local_basis) :
     m_position(position),
     m_local_basis(local_basis),
     m_fov(horizontal_fov * std::numbers::pi / 180)

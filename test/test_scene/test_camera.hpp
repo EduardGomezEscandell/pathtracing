@@ -40,10 +40,11 @@ struct Quadrant : public Geometry
 
 TEST_CASE("Camera")
 {
-    Eigen::Vector3d location;
+    constexpr double fov = 90;
+    Eigen::Vector3d location = {0.0, 0.0, 0.0};
     Eigen::Matrix3d camera_basis = Eigen::Matrix3d::Identity();
 
-    Camera camera(location, camera_basis);
+    Camera camera(fov, location, camera_basis);
 
     SUBCASE("Upper left quadrant")
     {

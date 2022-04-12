@@ -13,9 +13,9 @@
 class Camera
 {
 public:
-    Camera(const Eigen::Vector3d& position = {0, 0, 0},
-           const Eigen::Matrix3d& local_basis = Eigen::Matrix3d::Identity(),
-           const double& horizontal_fov = 90);
+    Camera(const double& horizontal_fov = 90,
+           const Eigen::Vector3d& position = {0.0, 0.0, 0.0},
+           const Eigen::Matrix3d& local_basis = Eigen::Matrix3d::Identity());
 
     Image snap(
         std::vector<Renderable> const& renderables,

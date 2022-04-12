@@ -14,6 +14,12 @@
 class Scene
 {
 public:
+    Scene() = default;
+    
+    Scene(Camera const& camera, std::vector<Renderable> const& renderables = {})
+        : m_camera(camera), m_renderables(renderables)
+    { }
+
     // Geometry
     std::vector<Renderable> & get_renderables() { return m_renderables; }
     std::vector<Renderable> const& get_renderables() const { return m_renderables; }
