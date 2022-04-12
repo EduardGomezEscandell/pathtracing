@@ -50,10 +50,10 @@ TEST_CASE("Camera")
         std::vector<Renderable> renderables;
         renderables.emplace_back(Quadrant{}, Colors::BLUE);
 
-        const auto img = camera.snap<4,2>(renderables);
+        const auto img = camera.snap(renderables, 4, 2);
 
-        REQUIRE(img.width == 4);
-        REQUIRE(img.height == 2);
+        REQUIRE(img.width() == 4);
+        REQUIRE(img.height() == 2);
 
         CHECK_EQ(img(0,0), Colors::BLUE);
         CHECK_EQ(img(0,1), Colors::BLUE);

@@ -24,11 +24,10 @@ std::string file_name(std::string_view base_name)
 enum Mode { ASCII, BINARY };
 
 
-template<std::size_t Width, std::size_t Height>
 class Output
 {
 public:
-    Output(Image<Width, Height> const& image, Mode mode = ASCII) :
+    Output(Image const& image, Mode mode = ASCII) :
         m_image(image), m_mode(mode)
     { }
 
@@ -53,7 +52,7 @@ public:
 
 private:
 
-    Image<Width, Height> const& m_image;
+    Image const& m_image;
     Mode m_mode;
 
     std::ostream& binary_impl(std::ostream& os) const
@@ -64,20 +63,16 @@ private:
     std::ostream& ascii_impl(std::ostream& os) const
     {
         os << "P3\n"
-           << m_image.width << " " << m_image.height << "\n"
+           << m_image.width() << " " << m_image.height() << "\n"
            << 255 << "\n";
 
-        for(auto const& row: m_image.pixels)
+        for(auto const& pixel: m_image)
         {
-            for(auto const& pixel: row)
-            {
-                os << static_cast<int>(pixel.r) << " "
-                   << static_cast<int>(pixel.g) << " "
-                   << static_cast<int>(pixel.b) << " ";
-            }
-            os << "\n";
+            os << static_cast<int>(pixel.r) << " "
+               << static_cast<int>(pixel.g) << " "
+               << static_cast<int>(pixel.b) << " ";
         }
-        return os;
+        return os << '\n';
     }
 };
 

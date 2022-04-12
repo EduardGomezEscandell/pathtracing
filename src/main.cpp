@@ -30,7 +30,7 @@ int main()
         }
     };
 
-    const auto image = scene.snap<720, 480>();
+    const auto image = scene.snap(720, 480);
 
     std::ofstream(NetBPM::file_name("test")) << NetBPM::Output{image} << std::endl;
 }

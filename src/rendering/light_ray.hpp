@@ -12,6 +12,10 @@
 
 struct LightRay : public Ray
 {
+    LightRay()
+        : Ray({0, 0, 0}, {1, 0, 0})
+    { }
+    
     LightRay(
         Eigen::Vector3d const& source,
         Eigen::Vector3d const& direction,

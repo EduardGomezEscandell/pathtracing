@@ -26,10 +26,9 @@ public:
     Camera const& get_camera() const { return m_camera; }
 
     // Snap
-    template<std::size_t TWidth, std::size_t THeight>
-    Image<TWidth, THeight> snap(std::size_t depth = 1)
+    Image snap(std::size_t width, std::size_t height, std::size_t depth = 1)
     {
-        return m_camera.snap<TWidth, THeight>(m_renderables, depth);
+        return m_camera.snap(m_renderables, width, height, depth);
     }
 
 protected:

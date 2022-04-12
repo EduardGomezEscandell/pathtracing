@@ -1,3 +1,5 @@
+clear
+
 export CC="clang"
 export CXX="clang++"
 

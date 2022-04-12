@@ -8,6 +8,7 @@
 
 // Project includes
 #include "image/image.hpp"
+#include "scene/lens.hpp"
 
 class Camera
 {
@@ -22,54 +23,35 @@ public:
 
     }
 
-    template<std::size_t TWidth = 1920, std::size_t THeight = 1080>
-    Image<TWidth, THeight> snap(std::vector<Renderable> const& renderables, std::size_t depth = 1)
+    Image snap(
+        std::vector<Renderable> const& renderables,
+        std::size_t width,
+        std::size_t height,
+        std::size_t depth = 1) const
     {
-        Image<TWidth, THeight> image;
+        Image image(width, height);
+        Lens lens(m_local_basis, width, height, m_fov);
+        static constexpr Collocation collocation = Collocation::GAUSS_9;
 
-        const double aspect_ratio = THeight / static_cast<double>(TWidth);
-        const double hfov = m_fov * 0.5;
-        const double vfov = hfov * aspect_ratio;
-
-        for(std::size_t row=0; row < THeight; ++row)
+        for(std::size_t row=0; row < height; ++row)
         {
-            for(std::size_t col=0; col < TWidth; ++col)
+            for(std::size_t col=0; col < width; ++col)
             {
-                std::vector<LightRay> rays = generate_rays<TWidth, THeight>(row, col, hfov, vfov, depth);
+                auto rays = lens.generate_rays<collocation>(row, col);
+
                 for(auto& ray: rays) {
+                    ray.source = m_position;
+                    ray.energy = depth;
                     cast(ray, renderables);
                 }
-                image(row, col) = reduce_color(rays);
 
+                image(row, col) = lens.integrate_color<collocation>(rays);
             }
         }
         return image;
     }
 
 protected:
-    template<std::size_t TWidth = 1920, std::size_t THeight = 1080>
-    std::vector<LightRay> generate_rays(
-        const std::size_t row,
-        const std::size_t col,
-        const double hfov,
-        const double vfov,
-        const std::size_t energy) const
-    {
-        const double xi  = (col + 0.5 - 0.5*TWidth) / static_cast<double>(TWidth);
-        const double eta = (0.5*THeight - row - 0.5) / static_cast<double>(THeight);
-
-        Eigen::Vector3d local_direction {
-            std::tan(hfov * xi),
-            std::tan(vfov * eta),
-            1
-        };
-        local_direction.normalize();
-
-        Eigen::Vector3d direction = m_local_basis * local_direction;
-
-        return {LightRay(m_position, direction, Colors::BLACK, energy)};
-    }
-
     void cast(LightRay& ray, std::vector<Renderable> const& renderables) const
     {
         [[maybe_unused]] static constexpr std::size_t max_iter = 10'000;
@@ -98,29 +80,6 @@ protected:
 
             closest_renderable->interact(ray, *closest_hit);
         }
-    }
-
-    Color reduce_color(std::vector<LightRay> const& rays)
-    {
-        unsigned int acc_red   = 0;
-        unsigned int acc_green = 0;
-        unsigned int acc_blue  = 0;
-        unsigned int acc_alpha = 0;
-
-        for(auto& ray: rays)
-        {
-            acc_red += ray.color.r;
-            acc_green += ray.color.g;
-            acc_blue += ray.color.b;
-            acc_alpha += ray.color.a;
-        }
-
-        const auto avg_red   = static_cast<Color::channel>(acc_red   / rays.size());
-        const auto avg_green = static_cast<Color::channel>(acc_green / rays.size());
-        const auto avg_blue  = static_cast<Color::channel>(acc_blue  / rays.size());
-        const auto avg_alpha = static_cast<Color::channel>(acc_alpha / rays.size());
-
-        return {avg_red, avg_green, avg_blue, avg_alpha};
     }
 
     Eigen::Vector3d m_position;
