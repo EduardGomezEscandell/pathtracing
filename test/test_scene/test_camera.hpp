@@ -14,27 +14,20 @@
 
 namespace {
 
-struct DummyRenderable : public Renderable
+struct Quadrant : public Geometry
 {
-    DummyRenderable()
-        : Renderable(Sphere(1.0, {0.0,0.0,0.0}), Material(Colors::BLUE))
+    Quadrant() : Geometry()
     { };
 
-    std::optional<Hit> cast(LightRay const& light_ray) const override
+    std::optional<Hit> intersect(const Ray& ray) const override
     {
-        if(light_ray.direction[0] < 0
-           && light_ray.direction[1] > 0
-           && light_ray.direction[2] > 0)
+        if(ray.direction[0] < 0
+         && ray.direction[1] > 0
+         && ray.direction[2] > 0)
         {
-            return Hit{{0,0,0}, {0,0,-1}, 1.0};
+            return Hit{ ray.direction, {0.0, 0.0, 1.0}, 1.0};
         }
         return std::nullopt;
-    }
-
-    void interact(LightRay & light_ray, Hit const&) const override
-    {
-        --light_ray.energy;
-        light_ray.color = Colors::BLUE;
     }
 };
 
@@ -49,8 +42,8 @@ TEST_CASE("Camera")
 
     SUBCASE("Upper left quadrant")
     {
-        std::vector<std::unique_ptr<Renderable>> renderables;
-        renderables.emplace_back(std::make_unique<DummyRenderable>());
+        std::vector<Renderable> renderables;
+        renderables.emplace_back(Quadrant{}, Colors::BLUE);
 
         const auto img = camera.snap<4,2>(renderables);
 

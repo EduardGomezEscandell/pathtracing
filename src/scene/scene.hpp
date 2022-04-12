@@ -14,11 +14,9 @@
 class Scene
 {
 public:
-    Scene() = default;
-
     // Geometry
-    std::vector<Renderable::Unique> & get_renderables() { return m_renderables; }
-    std::vector<Renderable::Unique> const& get_renderables() const { return m_renderables; }
+    std::vector<Renderable> & get_renderables() { return m_renderables; }
+    std::vector<Renderable> const& get_renderables() const { return m_renderables; }
 
     // Camera
     template<typename ...Args>
@@ -36,5 +34,5 @@ public:
 
 protected:
     Camera m_camera;
-    std::vector<Renderable::Unique> m_renderables;
+    std::vector<Renderable> m_renderables;
 };

@@ -16,28 +16,25 @@ int main()
     Scene scene;
 
     scene.get_renderables().emplace_back(
-        Renderable::Create(
             Sphere{
                 1.0, Eigen::Vector3d{1, 1, 6}
             },
             Material{Colors::BLUE}
-        ));
+        );
     scene.get_renderables().emplace_back(
-        Renderable::Create(
             Sphere{
                 2.0, Eigen::Vector3d{2, 2, 8}
             },
             Material{Colors::RED}
-        ));
+        );
     scene.get_renderables().emplace_back(
-        Renderable::Create(
             Sphere{
                 0.5, Eigen::Vector3d{-1, 0, 3}
             },
             Material{Colors::YELLOW}
-        ));
+        );
 
-    const auto image = scene.snap<720, 480>();
+    const auto image = scene.snap<1920, 1080>();
 
     std::ofstream(NetBPM::file_name("test")) << NetBPM::Output{image} << std::endl;
 }

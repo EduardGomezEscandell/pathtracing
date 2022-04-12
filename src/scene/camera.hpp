@@ -23,7 +23,7 @@ public:
     }
 
     template<std::size_t TWidth = 1920, std::size_t THeight = 1080>
-    Image<TWidth, THeight> snap(std::vector<std::unique_ptr<Renderable>> const& renderables, std::size_t depth = 1)
+    Image<TWidth, THeight> snap(std::vector<Renderable> const& renderables, std::size_t depth = 1)
     {
         Image<TWidth, THeight> image;
 
@@ -70,7 +70,7 @@ protected:
         return {LightRay(m_position, direction, Colors::BLACK, energy)};
     }
 
-    void cast(LightRay& ray, std::vector<std::unique_ptr<Renderable>> const& renderables) const
+    void cast(LightRay& ray, std::vector<Renderable> const& renderables) const
     {
         [[maybe_unused]] static constexpr std::size_t max_iter = 10'000;
         [[maybe_unused]] std::size_t i=0;
@@ -84,13 +84,13 @@ protected:
 
             for(auto const& renderable: renderables)
             {
-                auto hit = renderable->cast(ray);
+                auto hit = renderable.cast(ray);
                 if(!hit) continue;
 
                 if(!closest_hit || hit->distance < closest_hit->distance)
                 {
                     closest_hit.swap(hit);
-                    closest_renderable = renderable.get();
+                    closest_renderable = &renderable;
                 }
             }
 
