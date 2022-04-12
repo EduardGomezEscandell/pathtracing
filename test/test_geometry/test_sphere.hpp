@@ -28,4 +28,11 @@ TEST_CASE("Sphere")
         CHECK_EQ(hit->normal[1], doctest::Approx( 0.0));
         CHECK_EQ(hit->normal[2], doctest::Approx( 0.0));
     }
+
+    SUBCASE("Miss")
+    {
+        Ray ray({1.0, 0.0, 0.0}, {-1.0, 2.0, 0.0});
+        auto hit = sphere.intersect(ray);
+        REQUIRE(!hit.has_value());
+    }
 }
