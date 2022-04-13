@@ -1,6 +1,6 @@
 ### Pathtracing
-C++ implementation of a pathtracing algorithm. Currently the project is in early stage.
-The goal of this project is for it to be in my portfolio. It demonstates my ability to prgram in C++ with CMake, and to test it with Doctest and github's CI tools.
+C++ implementation of a pathtracing algorithm. Currently the project is in its early stages.
+The goal of this project is to play around with various technologies I am interested in. Particularly using C++ with CMake, and to test it with Doctest and github's CI tools.
 
 ## Status
 The general structure of the program works, but there are some critical enchancements to make:
