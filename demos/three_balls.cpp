@@ -1,14 +1,12 @@
 // STD includes
 #include <fstream>
-#include <vector>
 
 // External library includes
+#include <Eigen/Dense>
 
 // Project includes
 #include <geometry/sphere.hpp>
-#include <rendering/renderable.hpp>
 #include <scene/scene.hpp>
-#include <image/image.hpp>
 #include <image_output/netbpm_output.hpp>
 
 int main()
@@ -34,5 +32,5 @@ int main()
 
     const auto image = scene.snap(720, 480);
 
-    std::ofstream(NetBPM::file_name("test")) << NetBPM::Output{image} << std::endl;
+    std::ofstream(NetBPM::file_name("demo_three_balls")) << NetBPM::Output{image} << std::endl;
 }
