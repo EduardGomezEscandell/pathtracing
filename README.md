@@ -26,7 +26,7 @@ Then build:
 bash configure.sh
 ```
 
-The executable will be generated and a couple of symliks will be created:
+The executable will be generated and a couple of symlinks will be created:
 ```
 bin
 └── Release
