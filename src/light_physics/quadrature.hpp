@@ -2,6 +2,7 @@
 
 // STD includes
 #include <numeric>
+#include <cmath>
 #include <array>
 
 // External library includes
@@ -64,7 +65,7 @@ private:
         [[maybe_unused]] const double sum_weights =
             std::accumulate(data.begin(), data.end(), 0.0, [](double acc, const QuadraturePoint& p) { return acc + p.weight; } );
 
-        assert(constexpr_math::constexpr_unit_testing::almost_equal(sum_weights, 1.0)); // If this fails during compilation, the sum of the weights is not one.
+        assert(std::abs(sum_weights - 1.0) < 1e-10); // If this fails during compilation, the sum of the weights is not 1.0.
     }
 };
 
