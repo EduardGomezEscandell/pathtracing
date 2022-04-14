@@ -17,19 +17,19 @@ namespace
 {
     static constexpr double PI = std::numbers::pi;
 
-    inline constexpr long long int fact(const unsigned int x)
+    constexpr long long int fact(const unsigned int x)
     {
         if(x <= 1) return x;
         return x*fact(x-1); // tail recursion
     }
 
-    inline constexpr double pow(const double x, const std::size_t n)
+    constexpr double pow(const double x, const std::size_t n)
     {
         if(n == 0) return 1;
         return x*pow(x, n-1); // tail recursion
     }
 
-    inline constexpr double mod(const double x, const double base)
+    constexpr double mod(const double x, const double base)
     {
         return x - base*static_cast<long long int>(x / base);
     }
