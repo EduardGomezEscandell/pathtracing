@@ -1,11 +1,10 @@
 add_library(scene
   camera.hpp
   camera.cpp
-  lens.hpp
   scene.hpp
 )
 
-target_link_libraries(scene eigen geometry rendering image)
+target_link_libraries(scene eigen geometry rendering image light_physics)
 target_include_directories(scene INTERFACE ..)
 
 if(MSVC)

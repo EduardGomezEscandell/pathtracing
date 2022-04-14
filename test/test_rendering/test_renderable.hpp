@@ -19,7 +19,8 @@ TEST_CASE("Renderable")
         const std::optional hit = renderable.cast(ray);
 
         REQUIRE(hit.has_value());
-        renderable.interact(ray, *hit);
+        renderable.bounce(ray, *hit);
+        renderable.tint(ray, *hit);
 
         CHECK_EQ(ray.source[0], doctest::Approx(1.5));
         CHECK_EQ(ray.source[1], doctest::Approx(1.0));
@@ -43,7 +44,8 @@ TEST_CASE("Renderable")
         const std::optional hit = renderable.cast(ray);
 
         REQUIRE(hit.has_value());
-        renderable.interact(ray, *hit);
+        renderable.bounce(ray, *hit);
+        renderable.tint(ray, *hit);
 
         CHECK_EQ(ray.source[0], 1.5);
         CHECK_EQ(ray.source[1], 1.0);

@@ -19,7 +19,8 @@ TEST_CASE("Material")
     {
         LightRay ray({1.0, 0.0, 0.0}, {1.0, 2.0, 0.0}, ray_color);
         Hit hit({1.5, 1.0, 0.0}, {-1.0, 0.0, 0.0}, 1.118033988749895);
-        material.interact(ray, hit);
+        material.bounce(ray, hit);
+        material.tint(ray, hit);
 
         CHECK_EQ(ray.source[0], 1.5);
         CHECK_EQ(ray.source[1], 1.0);
@@ -41,7 +42,8 @@ TEST_CASE("Material")
     {
         LightRay ray({1.5, 0.0, 0.0}, {0.0, 1.0, 0.0}, Colors::WHITE);
         Hit hit({1.5, 1.0, 0.0}, {-1.0, 0.0, 0.0}, 0.0);
-        material.interact(ray, hit);
+        material.bounce(ray, hit);
+        material.tint(ray, hit);
 
         CHECK_EQ(ray.source[0], 1.5);
         CHECK_EQ(ray.source[1], 1.0);
