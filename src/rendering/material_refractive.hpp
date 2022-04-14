@@ -5,16 +5,14 @@
 // External library includes
 
 // Project includes
-#include "geometry/hit.hpp"
-#include "rendering/light_ray.hpp"
-#include "color.hpp"
+#include "material.hpp"
 
 
-class Material
+class RefractiveMaterial : public Material
 {
 public:
-    Material(Color color)
-        : m_color(color)
+    RefractiveMaterial(Color color)
+        : Material(color)
     { }
 
     void bounce(LightRay& ray, Hit const& hit) const

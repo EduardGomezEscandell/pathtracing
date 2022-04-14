@@ -1,5 +1,6 @@
 // STD includes
 #include <numbers>
+#include <stack>
 
 // External library includes
 #include <Eigen/Dense>
@@ -28,7 +29,7 @@ Image Camera::snap(
     std::size_t depth) const
 {
     Image image(width, height);
-    Lens lens(m_local_basis, width, height, m_fov);
+    LightPhysics lens(m_local_basis, width, height, m_fov);
     static constexpr Collocation collocation = Collocation::GAUSS_9;
 
     for(std::size_t row=0; row < height; ++row)
@@ -54,6 +55,9 @@ void Camera::cast(LightRay& ray, std::vector<Renderable> const& renderables) con
     [[maybe_unused]] static constexpr std::size_t max_iter = 10'000;
     [[maybe_unused]] std::size_t i=0;
 
+    using HitDatum = std::pair<Hit, Renderable const&>;
+    std::stack<HitDatum, std::vector<HitDatum>> hit_reccord;
+
     while(ray.energy)
     {
         assert(++i < max_iter && "Ray exceeded maximum iterations");
@@ -75,6 +79,16 @@ void Camera::cast(LightRay& ray, std::vector<Renderable> const& renderables) con
 
         if(!closest_hit) break;
 
-        closest_renderable->interact(ray, *closest_hit);
+        hit_reccord.emplace(*closest_hit, closest_renderable);
+    }
+
+    while(!hit_reccord.empty())
+    {
+        Hit const& hit = hit_reccord.top().first;
+        Renderable const& renderable = hit_reccord.top().second;
+        
+        renderable.tint(ray, hit);
+
+        hit_reccord.pop();
     }
 }

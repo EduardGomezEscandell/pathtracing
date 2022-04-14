@@ -71,9 +71,14 @@ public:
         return m_geometry->intersect(light_ray);
     }
 
-    void interact(LightRay & light_ray, Hit const& hit) const
+    void bounce(LightRay & light_ray, Hit const& hit) const
     {
-        m_material.interact(light_ray, hit);
+        m_material.bounce(light_ray, hit);
+    }
+    
+    void tint(LightRay & light_ray, Hit const& hit) const
+    {
+        m_material.tint(light_ray, hit);
     }
 
 protected:
