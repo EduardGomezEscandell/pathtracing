@@ -1,5 +1,6 @@
 add_subdirectory(geometry)
 add_subdirectory(rendering)
+add_subdirectory(light_physics)
 add_subdirectory(image)
 add_subdirectory(image_output)
 add_subdirectory(scene)

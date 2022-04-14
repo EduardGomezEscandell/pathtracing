@@ -8,7 +8,7 @@
 // Project includes
 #include "rendering/renderable.hpp"
 #include "scene/camera.hpp"
-#include "scene/lens.hpp"
+#include "light_physics/lens.hpp"
 #include "image/image.hpp"
 
 Camera::Camera(
@@ -29,14 +29,13 @@ Image Camera::snap(
     std::size_t depth) const
 {
     Image image(width, height);
-    LightPhysics lens(m_local_basis, width, height, m_fov);
-    static constexpr Collocation collocation = Collocation::GAUSS_9;
+    Lens<Collocation::GAUSS_3> lens(m_local_basis, width, height, m_fov);
 
     for(std::size_t row=0; row < height; ++row)
     {
         for(std::size_t col=0; col < width; ++col)
         {
-            auto rays = lens.generate_rays<collocation>(row, col);
+            auto rays = lens.generate_rays(row, col);
 
             for(auto& ray: rays) {
                 ray.source = m_position;
@@ -44,7 +43,7 @@ Image Camera::snap(
                 cast(ray, renderables);
             }
 
-            image(row, col) = lens.integrate_color<collocation>(rays);
+            image(row, col) = lens.integrate_color(rays);
         }
     }
     return image;
@@ -79,14 +78,15 @@ void Camera::cast(LightRay& ray, std::vector<Renderable> const& renderables) con
 
         if(!closest_hit) break;
 
-        hit_reccord.emplace(*closest_hit, closest_renderable);
+        closest_renderable->bounce(ray, *closest_hit);
+        hit_reccord.emplace(*closest_hit, *closest_renderable);
     }
 
     while(!hit_reccord.empty())
     {
         Hit const& hit = hit_reccord.top().first;
         Renderable const& renderable = hit_reccord.top().second;
-        
+
         renderable.tint(ray, hit);
 
         hit_reccord.pop();

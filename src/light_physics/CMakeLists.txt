@@ -1,9 +1,12 @@
 add_library(light_physics
+  constexpr_math.hpp
   quadrature.hpp
   lens.hpp
+  refraction.hpp
 )
 
-target_link_libraries(light_physics eigen geometry rendering image)
+set_target_properties(light_physics PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(light_physics eigen)
 target_include_directories(light_physics INTERFACE ..)
 
 if(MSVC)

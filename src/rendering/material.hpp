@@ -25,7 +25,7 @@ public:
         --ray.energy;
     };
 
-    void tint(LightRay& ray, Hit const& hit) const
+    void tint(LightRay& ray, Hit const&) const
     {
         ray.color = m_color;
     };

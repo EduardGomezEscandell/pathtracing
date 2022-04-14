@@ -31,7 +31,8 @@ public:
         const std::size_t row,
         const std::size_t col)
     {
-        constexpr auto& collocation = get_collocation<C>();
+        static constexpr auto collocation = Quadratures::get_square_collocation<TQuadrature>();
+        static_assert(collocation.size() > 0); // Forcing compiler into compile-time creation of collocation
         std::array<LightRay, collocation.size()> rays;
 
         const double origin_u = -1.0 + (col+0.5)*m_du ;
@@ -62,14 +63,15 @@ public:
         return rays;
     }
 
-    Color integrate_color(std::array<LightRay, get_collocation_size<C>()> const& rays)
+    Color integrate_color(std::array<LightRay, Quadratures::get_square_collocation<TQuadrature>().size()> const& rays)
     {
         double acc_red   = 0;
         double acc_green = 0;
         double acc_blue  = 0;
         double acc_alpha = 0;
 
-        constexpr auto& collocation = get_collocation<C>();
+        static constexpr auto collocation = Quadratures::get_square_collocation<TQuadrature>();
+        static_assert(collocation.size() > 0); // Forcing compiler into compile-time creation of collocation
 
         auto i_ray = rays.cbegin();
         auto i_datum = collocation.cbegin();
